@@ -32,7 +32,7 @@ const About: React.FC<AboutProps> = () => {
           {/* Experience */}
           <h3>Experience</h3>
           <p>
-            <b>Data Analyst Intern — Product Team</b><br />
+            <b>Data Analyst Intern — BingoForge</b><br />
             Worked on dashboards, ERP customization, and data-driven workflows.
           </p>
 

@@ -19,7 +19,7 @@ const Journey: React.FC<JourneyProps> = () => {
         <br />
 
         <p>
-          Today I’m here for two reasons:
+          Today I’m here for two reason:
           <br />• To show you the <b>exact system</b> I followed (so you can copy it)
           <br />• To meet you — because I’ll be <b>joining you next year</b>
         </p>
