@@ -1,9 +1,27 @@
-import React from "react";
-
-
+import React, { useEffect, useRef, useState } from "react";
 export interface JourneyPortfolioProps {}
 
+const BASE_WIDTH = 1440;
+const BASE_HEIGHT = 900;
+
 const JourneyPortfolio: React.FC<JourneyPortfolioProps> = () => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (!wrapperRef.current) return;
+
+      const wrapperWidth = wrapperRef.current.clientWidth;
+      const newScale = wrapperWidth / BASE_WIDTH;
+      setScale(newScale);
+    };
+
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
   return (
     <div className="site-page-content">
       <h1 style={{ marginLeft: -16 }}>Portfolio</h1>
@@ -37,53 +55,50 @@ const JourneyPortfolio: React.FC<JourneyPortfolioProps> = () => {
             <br />
             <b>Claims don’t get you internships. Proof does.</b>
             </p>
-        </div>
-
-        <div className="captioned-image">
-          <div style={styles.embedWrapper}>
-            <iframe
-              src="https://sohammj.github.io/"
-              title="Soham Portfolio"
-              style={styles.embed}
-            />
-          </div>
-
-          <p>
-            <sub>
-              <b>Figure 1:</b> My first portfolio website — proof of work
-            </sub>
-          </p>
-        </div>
-
       </div>
+
+      <div className="captioned-image">
+        <div ref={wrapperRef} style={styles.embedWrapper}>
+          <iframe
+            src="https://sohammj.github.io/"
+            title="Soham Portfolio"
+            style={{
+              ...styles.embed,
+              transform: `scale(${scale})`,
+            }}
+          />
+        </div>
+
+        <p>
+          <sub>
+            <b>Figure 1:</b> My first portfolio website — proof of work
+          </sub>
+        </p>
+      </div>
+    </div>
   );
 };
 
-const styles: StyleSheetCSS = {
+const styles: any = {
   embedWrapper: {
     width: "100%",
-    height: 520,
+    maxWidth: 1000,
+    margin: "0 auto",
+    aspectRatio: "16 / 9",
     border: "1px solid #000",
     overflow: "hidden",
     position: "relative",
+    background: "#000",
   },
 
-  // we will fit this "virtual desktop" into the wrapper
   embed: {
     position: "absolute",
     top: 0,
     left: 0,
-
-    width: 1440,
-    height: 900,
+    width: BASE_WIDTH,
+    height: BASE_HEIGHT,
     border: "none",
-
-    // ✅ KEY: scale so it fits the wrapper width perfectly
-    // 100% / 1440 = 0.694444...
-    transform: "scale(0.6944)",
     transformOrigin: "top left",
-
-    display: "block",
   },
 };
 
